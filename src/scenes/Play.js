@@ -127,6 +127,21 @@ class Play extends Phaser.Scene {
         //score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
-        this.sound.play('sfx_explosion');
+       if(Math.floor(Math.random()*4) == 0)
+       {
+            this.sound.play('sfx_expMod1');
+       }
+       else if(Math.floor(Math.random()*4) == 1)
+       {
+            this.sound.play('sfx_expMod2');
+       }
+       else if(Math.floor(Math.random()*4)  == 2)
+       {
+            this.sound.play('sfx_expMod3');
+       }
+       else if(Math.floor(Math.random()*4) == 3)
+       {
+            this.sound.play('sfx_expMod4');
+       }
     }
 }
