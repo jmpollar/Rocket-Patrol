@@ -1,8 +1,10 @@
 /*
 POINTS BREAKDOWN:
-10pts - 4 explosion SFX randomly played on impact
+10 pts - 4 explosion SFX randomly played on impact
 10 pts - display time remaining on screen
 10 pts - new border artwork
+10 pts - new title screen
+20 pts - new spaceship type: skin + score done, need update
 */
 
 

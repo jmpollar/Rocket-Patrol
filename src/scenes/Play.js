@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
         //load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('spaceshipUltra', './assets/spaceship-2.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('borderHorizon', './assets/border-horizon.png');
         this.load.image('borderVert', './assets/border-vert.png');
@@ -36,6 +37,9 @@ class Play extends Phaser.Scene {
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width+borderUISize*3, borderUISize*5+borderPadding*2, 'spaceship',0,20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6+borderPadding*4,'spaceship',0,10).setOrigin(0,0);
+
+        //ultra spaceship
+        this.shipUltra = new UltraSpaceship(this, game.config.width-borderUISize*3, borderUISize*6, 'spaceshipUltra', 0, 50).setOrigin(0,0);
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -81,7 +85,6 @@ class Play extends Phaser.Scene {
 
     update() {
         //update seconds remaining then print to screen
-        console.log(this.clock.elapsed); //this is correct
         this.timeRight.text = (this.timeRemaining-this.clock.elapsed)/1000;
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
@@ -93,11 +96,16 @@ class Play extends Phaser.Scene {
         this.starfield.tilePositionX -=4;
         if(!this.gameOver) {
             this.p1Rocket.update();
-            this.ship01.update(); //update 3 spaceships
+            this.ship01.update(); //update 4 spaceships
             this.ship02.update();
             this.ship03.update();
+            this.shipUltra.update();
         }
         //check collisions
+        if(this.checkCollision(this.p1Rocket, this.shipUltra)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.shipUltra);
+        }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
