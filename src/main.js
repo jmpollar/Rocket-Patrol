@@ -4,7 +4,8 @@ POINTS BREAKDOWN:
 10 pts - display time remaining on screen
 10 pts - new border artwork
 10 pts - new title screen
-20 pts - new spaceship type: skin + score done, need update
+20 pts - new spaceship type: skin + score + speed
+
 */
 
 
