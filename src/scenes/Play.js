@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceshipUltra', './assets/spaceship-2.png');
         this.load.image('starfield', './assets/starfield.png');
+        this.load.image('background', './assets/Background-rocket.png');
         this.load.image('borderHorizon', './assets/border-horizon.png');
         this.load.image('borderVert', './assets/border-vert.png');
         //load spritesheet for explosion
@@ -19,7 +20,7 @@ class Play extends Phaser.Scene {
         //create timer
         this.timeRemaining = game.settings.gameTimer;
         //place tile sprite
-        this.starfield = this.add.tileSprite(0,0,640,480,'starfield').setOrigin(0,0);
+        this.background = this.add.tileSprite(0,0,640,480,'background').setOrigin(0,0);
 
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2+5, 0x00FF00).setOrigin(0,0);
@@ -101,7 +102,7 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-        this.starfield.tilePositionX -=4;
+        this.background.tilePositionX -=4;
         if(!this.gameOver) {
             this.p1Rocket.update();
             this.p2Rocket.update();
