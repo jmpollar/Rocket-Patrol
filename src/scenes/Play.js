@@ -8,20 +8,23 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
-        //load spritesheet
+        //load spritesheets for explosion, horizontal border
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('borderHorizon', './assets/border-horizon.png', {frameWidth: 640, frameHeight: 32, startFrame: 0, endFrame: 2});
     }
 
     create() {
+        //create timer
+        this.timeRemaining = game.settings.gameTimer;
         //place tile sprite
         this.starfield = this.add.tileSprite(0,0,640,480,'starfield').setOrigin(0,0);
 
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0);
 
-        //white borders
-        this.add.rectangle(0,0,game.config.width, borderUISize, 0xFFFFFF).setOrigin(0,0);
-        this.add.rectangle(0, game.config.heihgt - borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0);
+        //dynamic borders
+        let leftBorder = this.add.sprite(0,0, 'borderHorizon').setOrigin(0,0);
+        this.add.rectangle(0, game.config.height - borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0);
         this.add.rectangle(0,0,borderUISize,game.config.height,0xFFFFFF).setOrigin(0,0);
         this.add.rectangle(game.config.width-borderUISize,0,borderUISize,game.config.height,0xFFFFFF).setOrigin(0,0);
     
@@ -43,6 +46,12 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
             frameRate: 30
         });
+        //horizontal border animation
+        this.anims.create({
+            key: 'horizontal',
+            frames: this.anims.generateFrameNumbers('borderHorizon', { start: 0, end: 2, first: 0}),
+            frameRate: 30
+        });
         //initialize score
         this.p1Score = 0;
         //display score
@@ -59,6 +68,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.timeRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth, borderUISize + borderPadding*2, this.timeRemaining/1000, scoreConfig);
         //game over flag
         this.gameOver = false;
 
@@ -69,9 +79,17 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2+64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
+        //define array for random explosion sounds
+        this.explosionSounds = ['sfx_expMod1', 'sfx_expMod2', 'sfx_expMod3', 'sfx_expMod4'];
     }
 
     update() {
+        //play border animations
+        leftBorder.anims.play('horizontal');
+        //update seconds remaining then print to screen
+        console.log(this.clock.elapsed); //this is correct
+        this.timeRight.text = (this.timeRemaining-this.clock.elapsed)/1000;
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -127,21 +145,7 @@ class Play extends Phaser.Scene {
         //score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
-       if(Math.floor(Math.random()*4) == 0)
-       {
-            this.sound.play('sfx_expMod1');
-       }
-       else if(Math.floor(Math.random()*4) == 1)
-       {
-            this.sound.play('sfx_expMod2');
-       }
-       else if(Math.floor(Math.random()*4)  == 2)
-       {
-            this.sound.play('sfx_expMod3');
-       }
-       else if(Math.floor(Math.random()*4) == 3)
-       {
-            this.sound.play('sfx_expMod4');
-       }
+        let randInt = Math.floor(Math.random()*4);
+        this.sound.play(this.explosionSounds[randInt]);
     }
 }
