@@ -1,5 +1,6 @@
 /*
 POINTS BREAKDOWN:
+5 pts - random left-right spaceship movement
 5 pts - new scrolling background
 10 pts - 4 explosion SFX randomly played on impact
 10 pts - display time remaining on screen
@@ -27,4 +28,4 @@ let keyF, keyR, keyLEFT, keyRIGHT;
 //keys for player 2
 let keyW, keyA, keyD;
 //highScore var
-let highScore;
+let highScore = 0;
