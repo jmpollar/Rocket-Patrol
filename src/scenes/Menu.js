@@ -27,11 +27,9 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         } 
-        //show menu text (title, instructions, high score)
+        //show menu text (title, instructions)
         this.add.tileSprite(0,0,640,480, 'title').setOrigin(0,0);
         this.add.text(game.config.width/2, game.config.height/4 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
-        menuConfig.fontSize = '50px';
-        this.add.text(game.config.width/2, game.config.height-borderUISize-borderPadding, 'HIGH SCORE: ' + highScore, menuConfig).setOrigin(0.5);
         menuConfig.fontSize = '27px';
         this.add.text(game.config.width/2, game.config.height/2, 'Use <- -> arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';

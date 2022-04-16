@@ -27,5 +27,3 @@ let borderPadding = borderUISize / 3;
 let keyF, keyR, keyLEFT, keyRIGHT;
 //keys for player 2
 let keyW, keyA, keyD;
-//highScore var
-let highScore = 0;

@@ -180,15 +180,6 @@ class Play extends Phaser.Scene {
         {
             this.p1Score += ship.points;
         }
-        //check for high score bounds
-        if(this.p1Score >= highScore)
-        {
-            highScore = this.p1Score;
-        }
-        else if(this.p2Score >= highScore)
-        {
-            highScore = this.p2Score;
-        }
         this.scoreLeft.text = "PLAYER 1: " + this.p1Score;
         this.scoreBelow.text = "PLAYER 2: " + this.p2Score;
         let randInt = Math.floor(Math.random()*4);
