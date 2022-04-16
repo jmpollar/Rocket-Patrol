@@ -5,7 +5,7 @@ POINTS BREAKDOWN:
 10 pts - new border artwork
 10 pts - new title screen
 20 pts - new spaceship type: skin + score + speed
-
+30 pts - simultaneous multiplayer (WAD and arrows&F)
 */
 
 
@@ -23,3 +23,5 @@ let borderPadding = borderUISize / 3;
 
 //reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;
+//keys for player 2
+let keyW, keyA, keyD;
