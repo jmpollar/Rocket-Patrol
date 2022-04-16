@@ -8,9 +8,10 @@ class Play extends Phaser.Scene {
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
-        //load spritesheets for explosion, horizontal border
+        this.load.image('borderHorizon', './assets/border-horizon.png');
+        this.load.image('borderVert', './assets/border-vert.png');
+        //load spritesheet for explosion
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
-        this.load.spritesheet('borderHorizon', './assets/border-horizon.png', {frameWidth: 640, frameHeight: 32, startFrame: 0, endFrame: 2});
     }
 
     create() {
@@ -22,12 +23,12 @@ class Play extends Phaser.Scene {
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0,0);
 
-        //dynamic borders
-        let leftBorder = this.add.sprite(0,0, 'borderHorizon').setOrigin(0,0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.height, 0xFFFFFF).setOrigin(0,0);
-        this.add.rectangle(0,0,borderUISize,game.config.height,0xFFFFFF).setOrigin(0,0);
-        this.add.rectangle(game.config.width-borderUISize,0,borderUISize,game.config.height,0xFFFFFF).setOrigin(0,0);
-    
+        //borders
+        this.add.tileSprite(0,32,32,416, 'borderVert').setOrigin(0,0);
+        this.add.tileSprite(game.config.width-32, 32,32,416, 'borderVert').setOrigin(0,0);
+        this.add.tileSprite(0,0,640,32, 'borderHorizon').setOrigin(0,0);
+        this.add.tileSprite(0, game.config.height-32, 640,32, 'borderHorizon').setOrigin(0,0);
+        
         //add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
    
@@ -44,12 +45,6 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-            frameRate: 30
-        });
-        //horizontal border animation
-        this.anims.create({
-            key: 'horizontal',
-            frames: this.anims.generateFrameNumbers('borderHorizon', { start: 0, end: 2, first: 0}),
             frameRate: 30
         });
         //initialize score
@@ -85,8 +80,6 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        //play border animations
-        leftBorder.anims.play('horizontal');
         //update seconds remaining then print to screen
         console.log(this.clock.elapsed); //this is correct
         this.timeRight.text = (this.timeRemaining-this.clock.elapsed)/1000;

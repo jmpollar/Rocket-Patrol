@@ -1,3 +1,12 @@
+/*
+POINTS BREAKDOWN:
+10pts - 4 explosion SFX randomly played on impact
+10 pts - display time remaining on screen
+10 pts - new border artwork
+*/
+
+
+
 let config = {
     type: Phaser.AUTO,
     width: 640,
